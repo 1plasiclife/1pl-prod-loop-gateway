@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="theme-color" content="#276749">
+<title>Loading LOOP… · 1 Plastic Life</title>
+<style>
+:root{--g:#62BB46;--d:#276749;--t:#1d2a22;--m:#4a5a50}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{font-family:"Open Sans",system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--t);background:#f6faf4;display:flex;align-items:center;justify-content:center;line-height:1.45}
+main{width:100%;max-width:400px;padding:32px 20px;text-align:center}
+.logo{width:96px;height:96px;margin:0 auto 14px;display:block}
+h1{font-size:1.9rem;margin:0;color:var(--d);font-weight:800;letter-spacing:.06em}
+.org{margin:2px 0 26px;color:var(--m);font-size:.9rem}
+.spin{width:38px;height:38px;margin:0 auto 14px;border:4px solid #d6ead0;border-top-color:var(--g);border-radius:50%;animation:s .9s linear infinite}
+@keyframes s{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){.spin{animation-duration:3s}}
+.status{font-size:1.05rem;font-weight:600;margin:0 0 8px}
+.note{font-size:.9rem;color:var(--m);margin:10px 0}
+.btn{display:block;margin:14px auto 0;max-width:280px;padding:14px 16px;border-radius:12px;background:var(--d);color:#fff;text-decoration:none;font-weight:700;font-size:1rem;border:0;cursor:pointer;font-family:inherit;width:100%}
+.btn:focus-visible{outline:3px solid var(--g);outline-offset:2px}
+.btn.sec{background:transparent;color:var(--d);border:2px solid var(--d)}
+[hidden]{display:none!important}
+footer{margin-top:34px;font-size:.75rem;color:var(--m)}
+footer a{color:var(--d)}
+</style>
+</head>
+<body>
+<main>
+<svg class="logo" viewBox="0 0 96 96" role="img" aria-label="LOOP"><circle cx="48" cy="48" r="44" fill="#276749"/><path d="M48 20a28 28 0 1 1-24.2 14" fill="none" stroke="#62BB46" stroke-width="9" stroke-linecap="round"/><path d="M14 28l10 7 6-11" fill="none" stroke="#62BB46" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<h1>LOOP</h1>
+<p class="org">1 Plastic Life · Supervisor</p>
+
+<div id="loading" role="status" aria-live="polite">
+<div class="spin" aria-hidden="true"></div>
+<p class="status">Loading LOOP…</p>
+<p class="note" id="slow" hidden>The network is slow. LOOP is still loading. You can keep waiting or try again.</p>
+<button class="btn" id="retry" type="button" hidden>Try again</button>
+</div>
+
+<div id="nolink" hidden>
+<p class="status">Open your job from your Calendar event</p>
+<p class="note">Use the LOOP link in the job's Google Calendar event. This page doesn't create or show job links.</p>
+<a class="btn sec" href="/">LOOP home</a>
+</div>
+
+<noscript>
+<p class="status">Open your job from your Calendar event</p>
+<p class="note">JavaScript is off, so this page can't open LOOP for you. Use the LOOP link in the job's Google Calendar event.</p>
+<style>#loading{display:none}</style>
+</noscript>
+
+<footer>1 Plastic Life · LOOP · <a href="/">loop.1plasticlife.org</a></footer>
+</main>
+<script>
+(function(){
+  // Prod LOOP /exec. Must match the live gateway index.html.
+  var EXEC="https://script.google.com/macros/s/AKfycbzbHiSf0paceH7Rdgt2Fe05joeS_8nn63sLT7HYFdPkWV88ZIE3BXT2tIFUeE112nJ69Q/exec";
+  var q=location.search, h=location.hash;
+  // AQ-LINK-1: only pass through what the supervisor arrived with. Nothing is stored, logged or built.
+  if(!q && !h){
+    document.getElementById("loading").hidden=true;
+    document.getElementById("nolink").hidden=false;
+    return;
+  }
+  var target=EXEC+q+h;
+  function go(){location.replace(target);}
+  setTimeout(function(){
+    document.getElementById("slow").hidden=false;
+    var b=document.getElementById("retry");b.hidden=false;b.onclick=go;
+  },8000);
+  // Let the branded screen paint, then navigate the whole tab (no iframe).
+  requestAnimationFrame(function(){setTimeout(go,0);});
+})();
+</script>
+</body>
+</html>
